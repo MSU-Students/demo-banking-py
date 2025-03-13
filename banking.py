@@ -1,33 +1,45 @@
-
+from functools import reduce
 class BankAccount:
     def __init__(self, accountName):
         self.name = accountName
 
-    accountBalance = 0
-    transactions = []
+    __transactions = []
 
+    @property
+    def computedBalance(self):
+        def reducer(total, trans):
+            operation, amount = trans
+            if operation == 'deposit':
+                return total + amount
+            elif operation == 'withdraw':
+                return total + amount
+            else:
+                return total
+        accountBalance = reduce(reducer, self.__transactions, 0)
+        return accountBalance
+    
     # manage deposit operation
     def depositAmount(self):
         deposit = float(input('Enter amount to deposit:'))
         if deposit <= 0:
             print('Invalid amount')
         else:
-            self.accountBalance += deposit
-            self.transactions.append(('deposit', deposit))
+            self.__transactions.append(('deposit', deposit))
     
     # manage withdrawal operation
     def withdrawAmount(self):
         withdraw = float(input('Enter amount to withdraw:'))
-        if withdraw > self.accountBalance:
+        accountBalance = self.computedBalance
+        if withdraw > accountBalance:
             print('Invalid amount')
         else:
-            self.accountBalance -= withdraw
-            self.transactions.append(('withdraw', withdraw))
+            self.__transactions.append(('withdraw', withdraw))
 
     # Display present balance
     def checkBalance(self):
-        print(f'Your present balance is: P {self.accountBalance}')
-        self.transactions.append(('check-balance', self.accountBalance))
+        accountBalance = self.computedBalance
+        print(f'Your present balance is: P {accountBalance}')
+        self.__transactions.append(('check-balance', accountBalance))
 
     # Display list of transactions
     def printTransactions(self, operations):
@@ -40,12 +52,12 @@ class BankAccount:
 
     # Display all transactions
     def printSummary(self):
-        self.printTransactions(self.transactions)
+        self.printTransactions(self.__transactions)
 
     # Display only withdrawal transactions
     def printWithdrawSummary(self):
         withdraws = filter(
             lambda trans: trans[0] == 'withdraw' , 
-            self.transactions 
+            self.__transactions 
         )
         self.printTransactions(withdraws)

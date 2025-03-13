@@ -17,6 +17,7 @@ def printMenu():
 def main():
     # initialize operation not(TERMINATE) allowing initial loop entry
     account = BankAccount("Luffy")
+
     operation = BALANCE
     while operation != TERMINATE:
         printMenu()
