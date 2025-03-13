@@ -1,6 +1,10 @@
 # declare constants
 TERMINATE, WITHDRAW, DEPOSIT, BALANCE, SUMMARY, WITHDRAW_SUMMARY = (0, 1 , 2, 3, 4, 5)
 
+class BankAccount:
+    accountBalance = 0
+    transactions = []
+
 # banking storage 
 accountBalance = 0
 transactions = []
