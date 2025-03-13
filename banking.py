@@ -2,6 +2,9 @@
 TERMINATE, WITHDRAW, DEPOSIT, BALANCE, SUMMARY, WITHDRAW_SUMMARY = (0, 1 , 2, 3, 4, 5)
 
 class BankAccount:
+    def __init__(self, accountName):
+        self.name = accountName
+        
     accountBalance = 0
     transactions = []
 
